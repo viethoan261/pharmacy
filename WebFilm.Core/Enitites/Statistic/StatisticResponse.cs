@@ -12,5 +12,6 @@ namespace WebFilm.Core.Enitites.Statistic
         public BaseStatistic supplier { get; set; }
         public List<DrugOrderStatistic> drugOrder { get; set; }
         public int totalOrder { get; set; }
+        public int totalPack { get; set; }
     }
 }

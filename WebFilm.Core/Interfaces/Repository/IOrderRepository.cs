@@ -11,5 +11,6 @@ namespace WebFilm.Core.Interfaces.Repository
     public interface IOrderRepository : IBaseRepository<int, Orders>
     {
         Orders create(int customerID, float price);
+        List<Orders> totalUnPack();
     }
 }

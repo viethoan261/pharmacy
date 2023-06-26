@@ -48,11 +48,13 @@ namespace WebFilm.Core.Services
             BaseStatistic supplier = _supplierRepository.getStatistic();
             List<DrugOrderStatistic> drugOrder = _orderDrugRepository.GetStatistic();
             int totalOrder = _orderRepository.GetAll().ToList().Count();
+            int totalPack = _orderRepository.totalUnPack().Count();
 
             res.totalOrder = totalOrder;
             res.drug = drug;
             res.supplier = supplier;
             res.drugOrder = drugOrder;
+            res.totalPack = totalPack;
             return res;
         }
     }

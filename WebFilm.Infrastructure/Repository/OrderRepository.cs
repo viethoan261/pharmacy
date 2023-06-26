@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace WebFilm.Infrastructure.Repository
         {
             using (SqlConnection = new MySqlConnection(_connectionString))
             {
-                var sqlCommand = $@"INSERT INTO `Orders` (customerID, price, createdDate, modifiedDate)
-                                              VALUES (@v_customerID, @v_price, NOW(), NOW());";
+                var sqlCommand = $@"INSERT INTO `Orders` (customerID, price, createdDate, modifiedDate, isPack)
+                                              VALUES (@v_customerID, @v_price, NOW(), NOW(), false);";
                 using (MySqlCommand command = new MySqlCommand(sqlCommand, SqlConnection))
                 {
                     command.Parameters.AddWithValue("@v_customerID", customerID);
@@ -36,6 +37,19 @@ namespace WebFilm.Infrastructure.Repository
                     SqlConnection.Close();
                     return insertedObject;
                 }
+            }
+        }
+
+        public List<Orders> totalUnPack()
+        {
+            using (SqlConnection = new MySqlConnection(_connectionString))
+            {
+                var sqlCommand = $@"Select * from `Orders` where isPack = false;";
+
+                var res = SqlConnection.Query<Orders>(sqlCommand);
+
+                SqlConnection.Close();
+                return res.ToList();
             }
         }
     }
